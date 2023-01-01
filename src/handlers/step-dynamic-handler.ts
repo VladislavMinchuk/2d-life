@@ -3,21 +3,25 @@ import { Organism } from "../items/organism";
 import { Predator } from "../items/predator";
 
 export default class StepDynamicHandler implements IStepDynamicHandler {
-  public getNextMoveForShapeItem(item: IDynamicShapeItem, shape: IShape): IPosition {
-    let nextMove: IPosition = item.nextMove;
+  public getNextMoveForShapeItem(element: IDynamicShapeItem, shape: IShape): IPosition {
+    let nextMove: IPosition = element.nextMove;
 
     // Attack action if Predator has target
-    if (item instanceof Predator && item.currentTarget) this.attackPredator(item, nextMove);
+    if (element instanceof Predator && element.currentTarget) this.attackPredator(element, nextMove);
 
     // Next move should be a free space only for Organism
-    if (item instanceof Organism && !shape.isSpace(nextMove)) {
-      nextMove = item.prevStep
+    if (element instanceof Organism && !shape.isSpace(nextMove)) {
+      nextMove = element.prevStep
     }
 
     // Step back if nextMove is outside position
-    if (!shape.isPositionInsideShape(nextMove)) nextMove = item.prevStep;
+    if (!shape.isPositionInsideShape(nextMove)) nextMove = element.prevStep;
 
     return nextMove;
+  }
+
+  public getAliveItems(elements: IDynamicShapeItem[]): IDynamicShapeItem[] {
+    return elements.filter((e) => !e.isDead);
   }
 
   private attackPredator(element: Predator, nextMove: IPosition) {

@@ -27,21 +27,24 @@ const drawer = new Drawer(
   );
 
   
+// drawer.show();
+// drawer.step();
+
 const start = (() => {
   let i = 0;
+  drawer.show();
   
-  const t = setInterval(() => {
-    drawer.show();
-    drawer.step();
+  drawer.step();
+  // const t = setInterval(() => {
     
-    if (i > 100) {
-      drawer.show();
-      clearInterval(t)
-    } else {
-      setTimeout(() => {
-        drawer.clearConsoleAndScrollbackBuffer();
-      }, 800);
-    }
-    i++;
-  }, 800);
+  //   if (i > 100) {
+  //     drawer.show();
+  //     clearInterval(t)
+  //   } else {
+  //     // setTimeout(() => {
+  //     //   drawer.clearConsoleAndScrollbackBuffer();
+  //     // }, 1000);
+  //   }
+  //   i++;
+  // }, 1000);
 })();

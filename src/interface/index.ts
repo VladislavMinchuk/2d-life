@@ -80,5 +80,6 @@ export interface IShapeSize {
 }
 
 export interface IStepDynamicHandler {
-  getNextMoveForShapeItem(item: IDynamicShapeItem, shape: IShape): IPosition;
+  getNextMoveForShapeItem(element: IDynamicShapeItem, shape: IShape): IPosition;
+  getAliveItems(elements: IDynamicShapeItem[]): IDynamicShapeItem[];
 }
