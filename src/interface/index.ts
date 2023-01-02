@@ -43,7 +43,7 @@ export interface IDynamicShapeItem extends IShapeItem {
 export interface IDrawer {
   shapeInstance: IShape;
   shapeItems: IDynamicShapeItem[];
-  dynamicHandler: IStepDynamicHandler;
+  dynamicItemsService: IStepDynamicService;
 
   show(): void;
   step(): void;
@@ -51,13 +51,10 @@ export interface IDrawer {
 
 export interface IRadar {
   size: IShapeSize;
-  centerMark: string;
-  outsidePositionOwner: IPosition;
-  outsideMap: IShape;
-  _organismsAround: IDynamicShapeItem[];
 
   get radarCenter(): IPosition;
   get organismsAround(): IDynamicShapeItem[];
+  get availableMoves(): IPosition[]
   isSpace(position: IPosition): boolean;
   setOutsidePositionOwner(outsidePositionOwner: IPosition): void;
   updateRadar(): void;
@@ -79,7 +76,7 @@ export interface IShapeSize {
   height: number;
 }
 
-export interface IStepDynamicHandler {
+export interface IStepDynamicService {
   getNextMoveForShapeItem(element: IDynamicShapeItem, shape: IShape): IPosition;
   getAliveItems(elements: IDynamicShapeItem[]): IDynamicShapeItem[];
 }

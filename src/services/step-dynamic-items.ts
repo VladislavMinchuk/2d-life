@@ -1,8 +1,8 @@
-import { IDynamicShapeItem, IPosition, IShape, IStepDynamicHandler } from "../interface";
+import { IDynamicShapeItem, IPosition, IShape, IStepDynamicService } from "../interface";
 import { Organism } from "../items/organism";
 import { Predator } from "../items/predator";
 
-export default class StepDynamicHandler implements IStepDynamicHandler {
+export default class StepDynamicHandler implements IStepDynamicService {
   public getNextMoveForShapeItem(element: IDynamicShapeItem, shape: IShape): IPosition {
     let nextMove: IPosition = element.nextMove;
 

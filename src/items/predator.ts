@@ -36,11 +36,8 @@ export class Predator extends DynamicShapeItem {
   }
 
   getNextRandomMove(): IPosition {
-    const nextMove = super.nextMove;
-
-    if (this.radar.isSpace(nextMove)) return nextMove;
-    
-    return this.getNextRandomMove();
+    const index = Math.floor(Math.random() * this.radar.availableMoves.length);
+    return this.radar.availableMoves[index];
   }
 
   findNextMoveByRadar(): IPosition {

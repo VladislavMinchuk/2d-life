@@ -8,10 +8,11 @@ const centerMark = 'c';
 
 export class Radar extends Shape implements IRadar {
   size: IShapeSize;
-  centerMark: string;
-  outsidePositionOwner: IPosition;
-  outsideMap: IShape;
-  _organismsAround: Organism[];
+  private centerMark: string;
+  private outsidePositionOwner: IPosition;
+  private outsideMap: IShape;
+  private _organismsAround: Organism[];
+  private _availableMoves: IPosition[];
 
   constructor(outsidePositionOwner: IPosition, outsideMap: IShape) {
     super(defaultRadarSize, radarShapeSymbol); // call Shaper's constructor
@@ -20,6 +21,7 @@ export class Radar extends Shape implements IRadar {
     this.outsidePositionOwner = outsidePositionOwner;
     this.outsideMap = outsideMap;
     this._organismsAround = [];
+    this._availableMoves = [];
 
     this.setCenterMarker(this.centerMark);
     this.updateRadar();
@@ -36,8 +38,8 @@ export class Radar extends Shape implements IRadar {
     return this._organismsAround;
   }
 
-  private resetOrganismAround() {
-    this._organismsAround = [];
+  get availableMoves(): IPosition[] {
+    return this._availableMoves;
   }
 
   private addOrganismAround(item: Organism) {
@@ -46,6 +48,18 @@ export class Radar extends Shape implements IRadar {
 
   private setCenterMarker(mark: string) {
     this.insertItem(this.radarCenter, mark);
+  }
+
+  private addAvailableMove(position: IPosition) {
+    const distanceX = Math.abs(this.outsidePositionOwner.x - position.x);
+    const distanceY = Math.abs(this.outsidePositionOwner.y - position.y);
+
+    if (distanceX < 2 && distanceY < 2 && this.outsideMap.isSpace(position)) this._availableMoves.push(position);
+  }
+
+  private resetAroundState() {
+    this._organismsAround = [];
+    this._availableMoves = [];
   }
 
   isSpace(position: IPosition): boolean {
@@ -57,7 +71,7 @@ export class Radar extends Shape implements IRadar {
   }
 
   updateRadar() {
-    this.resetOrganismAround();
+    this.resetAroundState();
     const outsideStartX = this.outsidePositionOwner.x - (this.radarCenter.x - 1);
     const outsideStartY = this.outsidePositionOwner.y - (this.radarCenter.y - 1);
     const maxIterationsY = this.size.height;
@@ -89,6 +103,7 @@ export class Radar extends Shape implements IRadar {
         if (outsideItem instanceof Organism && !outsideItem.isDead) this.addOrganismAround(outsideItem);
         
         this.insertItem({ x: indexX + 1, y: indexY + 1 }, outsideItem);
+        this.addAvailableMove(outsideLocalPos);
       }
     }
 

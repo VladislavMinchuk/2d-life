@@ -2,7 +2,7 @@ import { Drawer } from "./drawer";
 import { Shape } from "./shapes/shape";
 import PredatorFactory from "./factories/predator-factory";
 import OrganismFactory from "./factories/organism-factory";
-import StepDynamicHandler from "./handlers/step-dynamic-handler";
+import StepDynamicHandler from "./services/step-dynamic-items";
 
 
 const field = new Shape({ width: 10, height: 10});

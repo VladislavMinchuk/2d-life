@@ -1,17 +1,17 @@
-import { IDrawer, IShape, IDynamicShapeItem, IPosition, IStepDynamicHandler } from "./interface";
+import { IDrawer, IShape, IDynamicShapeItem, IPosition, IStepDynamicService } from "./interface";
 
 export class Drawer implements IDrawer {
   shapeInstance: IShape;
   shapeItems: IDynamicShapeItem[];
-  dynamicHandler: IStepDynamicHandler;
+  dynamicItemsService: IStepDynamicService;
 
   constructor(options: {
     shape: IShape,
-    dynamic: { items: IDynamicShapeItem[], handler: IStepDynamicHandler }
+    dynamic: { items: IDynamicShapeItem[], handler: IStepDynamicService }
   }) {
     this.shapeInstance = options.shape;
     this.shapeItems = options.dynamic.items;
-    this.dynamicHandler = options.dynamic.handler;
+    this.dynamicItemsService = options.dynamic.handler;
   }
 
   private insertAllItemsIntoShape(): IShape {
@@ -39,50 +39,22 @@ export class Drawer implements IDrawer {
     let index = 0;
       
     const interval = setInterval(() => {
-      
       let element = this.shapeItems[index];
-      if (!element) {
-        index = 0;
-        element = this.shapeItems[index];
-      }
+      if (!element) return index = 0;
 
       if (element.isDead) {
-        console.log(element.isDead);
-        return this.shapeItems = this.dynamicHandler.getAliveItems(this.shapeItems);
+        return this.shapeItems = this.dynamicItemsService.getAliveItems(this.shapeItems);
       }
 
-      // this.clearConsoleAndScrollbackBuffer();
+      this.clearConsoleAndScrollbackBuffer();
 
       // Get nextMove fron Handler
-      let nextMove: IPosition = this.dynamicHandler.getNextMoveForShapeItem(element, this.shapeInstance);
-      
-      console.log(element.constructor.name, index, 'next: ' + JSON.stringify(nextMove), 'prev: ' + JSON.stringify(element.prevStep));
-      
+      let nextMove: IPosition = this.dynamicItemsService.getNextMoveForShapeItem(element, this.shapeInstance);
       element.move(nextMove);
-
+      
       this.insertSinglItem(element).showShape();
-
       index++;
     }, 1000);
-
-
-
-      
-      
-
-    // this.shapeItems = this.shapeItems.filter((element) => {
-    //   if (element.isDead) {
-    //     // Set empty space instead of dead element
-    //     this.shapeInstance.insertSpace(element.getPosition());
-    //     return false; // Remove dead items
-    //   }
-
-    //   // Get nextMove fron Handler
-    //   let nextMove: IPosition = this.dynamicHandler.getNextMoveForShapeItem(element, this.shapeInstance);
-    //   element.move(nextMove);
-      
-    //   return true;
-    // });
   }
 
   public clearConsoleAndScrollbackBuffer() {
