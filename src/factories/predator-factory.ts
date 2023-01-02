@@ -1,7 +1,7 @@
 import { IPosition, IShape } from "../interface";
 import IDynamicItemsFactory from "../interface/dynamic-items-factory";
 import { Predator } from "../items/predator";
-import { Radar } from "../shapes/radar";
+import { PredatorRadar } from "../shapes/predator-radar";
 
 export default class PredatorFactory implements IDynamicItemsFactory {
   outsideMap: IShape;
@@ -11,10 +11,10 @@ export default class PredatorFactory implements IDynamicItemsFactory {
   }
 
   create(position: IPosition): Predator {
-    return new Predator(position, (new Radar(position, this.outsideMap)))
+    return new Predator(position, (new PredatorRadar(position, this.outsideMap)))
   }
 
   createArray(positions: IPosition[]): Predator[] {
-    return positions.map((pos) => new Predator(pos, new Radar(pos, this.outsideMap)));
+    return positions.map((pos) => new Predator(pos, new PredatorRadar(pos, this.outsideMap)));
   }
 }

@@ -50,20 +50,22 @@ export interface IDrawer {
 }
 
 export interface IRadar {
-  size: IShapeSize;
-
   get radarCenter(): IPosition;
-  get organismsAround(): IDynamicShapeItem[];
-  get availableMoves(): IPosition[]
   isSpace(position: IPosition): boolean;
   setOutsidePositionOwner(outsidePositionOwner: IPosition): void;
+  updateRadar(iterationCb: Function): void;
+}
+
+export interface IPredatorRadar {
+  get randomTarget(): IDynamicShapeItem;
+  get nextRandomMove(): IPosition;
+  get hasTargetAround(): boolean;
   updateRadar(): void;
+  setOutsidePositionOwner(outsidePositionOwner: IPosition): void;
 }
 
 export interface IPredator {
-  get currentTarget(): IDynamicShapeItem | null;
-  findNextMoveByRadar(): IPosition;
-  getNextRandomMove(): IPosition;
+  get currentTarget(): IDynamicShapeItem;
 }
 
 export interface IPosition {

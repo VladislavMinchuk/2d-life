@@ -39,10 +39,12 @@ export class DynamicShapeItem extends ShapeItem implements IDynamicShapeItem {
       (a: number) => a - 1,
       (a: number) => a,
     ];
+    let maxIndex = culcPositionsFn.length;
 
-    const indexX = Math.floor(Math.random() * culcPositionsFn.length);
-    const indexY = Math.floor(Math.random() * culcPositionsFn.length);
-    
+    const indexX = Math.floor(Math.random() * maxIndex);
+    if (indexX === 2) maxIndex -= 1; // For skip the case with same X and Y
+    const indexY = Math.floor(Math.random() * maxIndex);
+
     return {
       x: culcPositionsFn[indexX](this.x),
       y: culcPositionsFn[indexY](this.y)
