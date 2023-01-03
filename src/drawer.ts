@@ -1,4 +1,5 @@
 import { IDrawer, IShape, IDynamicShapeItem, IPosition, IStepDynamicService } from "./interface";
+import { Organism } from "./items/organism";
 
 export class Drawer implements IDrawer {
   shapeInstance: IShape;
@@ -29,7 +30,7 @@ export class Drawer implements IDrawer {
       .insertSpace(element.prevStep)
       .insertItem(element.getPosition(), element);
   }
-  
+
   public show() {
     this.clearConsoleAndScrollbackBuffer();
     this.insertAllItemsIntoShape().showShape();
@@ -40,21 +41,30 @@ export class Drawer implements IDrawer {
       
     const interval = setInterval(() => {
       let element = this.shapeItems[index];
-      if (!element) return index = 0;
-
+      if (!element) return index = 0; // Reset interval cb
+      
       if (element.isDead) {
+        // Reset interval cb
         return this.shapeItems = this.dynamicItemsService.getAliveItems(this.shapeItems);
       }
 
       this.clearConsoleAndScrollbackBuffer();
 
-      // Get nextMove fron Handler
-      let nextMove: IPosition = this.dynamicItemsService.getNextMoveForShapeItem(element, this.shapeInstance);
-      element.move(nextMove);
-      
-      this.insertSinglItem(element).showShape();
+      this.stepSinglItem(element);
       index++;
     }, 1000);
+  }
+
+  public stepSinglItem(element: IDynamicShapeItem) {
+    // Get nextMove fron Handler
+    let nextMove: IPosition = this.dynamicItemsService.getNextMoveForShapeItem(element, this.shapeInstance);
+    element.move(nextMove);
+
+    if (element instanceof Organism) {
+      console.log(element.x, element.y, nextMove);
+    }
+    
+    this.insertSinglItem(element).showShape();
   }
 
   public clearConsoleAndScrollbackBuffer() {
