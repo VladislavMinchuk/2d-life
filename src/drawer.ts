@@ -59,10 +59,6 @@ export class Drawer implements IDrawer {
     // Get nextMove fron Handler
     let nextMove: IPosition = this.dynamicItemsService.getNextMoveForShapeItem(element, this.shapeInstance);
     element.move(nextMove);
-
-    if (element instanceof Organism) {
-      console.log(element.x, element.y, nextMove);
-    }
     
     this.insertSinglItem(element).showShape();
   }
