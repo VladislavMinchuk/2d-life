@@ -47,6 +47,9 @@ export interface IDrawer {
 
   show(): void;
   step(): void;
+  clearConsoleAndScrollbackBuffer(): void;
+  filterShapeItems(): void;
+  stepSinglItem(element: IDynamicShapeItem): void;
 }
 
 export interface IRadar {

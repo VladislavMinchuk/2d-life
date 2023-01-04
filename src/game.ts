@@ -64,8 +64,28 @@ export default new class Game {
     this._dawer.show();
     this._dawer.step();
   }
+  
+  public showMap() {
+    this._dawer.show();
+  }
 
   public stop() {
     process.exit(0);
+  }
+
+  public startStepByStep(): Function {
+    let index = 0;
+
+    return () => {
+      if (index >= this._dawer.shapeItems.length) index = 0; // Reset index
+      
+      let element = this._dawer.shapeItems[index];
+      
+      this._dawer.clearConsoleAndScrollbackBuffer();
+      this._dawer.stepSinglItem(element);
+      this._dawer.filterShapeItems();
+      
+      index++;
+    };
   }
 }

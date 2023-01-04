@@ -5,6 +5,7 @@ export class Drawer implements IDrawer {
   shapeInstance: IShape;
   shapeItems: IDynamicShapeItem[];
   dynamicItemsService: IStepDynamicService;
+  
 
   constructor(options: {
     shape: IShape,
@@ -63,6 +64,10 @@ export class Drawer implements IDrawer {
     this.insertSinglItem(element).showShape();
   }
 
+  public filterShapeItems() {
+    this.shapeItems = this.dynamicItemsService.getAliveItems(this.shapeItems);
+  }
+ 
   public clearConsoleAndScrollbackBuffer() {
     process.stdout.write("\u001b[3J\u001b[2J\u001b[1J");
     console.clear();
