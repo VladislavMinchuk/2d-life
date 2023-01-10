@@ -13,18 +13,14 @@ export default new class GamePreset {
         choices: mainSettingChoices,
       },
       {
-        when: ({ mainSetting }) => {
-          return mainSetting === 'custom';
-        },
+        when: ({ mainSetting }) => mainSetting === 'custom',
         type: 'list',
         name: 'mapSize',
         message: 'Choose size of map',
         choices: mapSizeChoices,
       },
       {
-        when: ({ mainSetting }) => {
-          return mainSetting === 'custom';
-        },
+        when: ({ mainSetting }) => mainSetting === 'custom',
         type: 'checkbox',
         message: 'Which types of dynamic items should include?',
         name: 'dynamicItems',
