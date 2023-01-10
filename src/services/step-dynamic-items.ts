@@ -1,16 +1,16 @@
 import { IDynamicShapeItem, IPosition, IShape, IStepDynamicService } from "../interface";
-import { Organism } from "../items/organism";
-import { Predator } from "../items/predator";
+import { Civilian } from "../items/civilian";
+import { Warrior } from "../items/warrior";
 
 export default class StepDynamicHandler implements IStepDynamicService {
   public getNextMoveForShapeItem(element: IDynamicShapeItem, shape: IShape): IPosition {
     let nextMove: IPosition = element.nextMove;
 
-    // Attack action if Predator has target
-    if (element instanceof Predator && element.currentTarget) this.attackPredator(element, nextMove);
+    // Attack action if Warrior has target
+    if (element instanceof Warrior && element.currentTarget) this.attackWarrior(element, nextMove);
 
-    // Next move should be a free space only for Organism
-    if (element instanceof Organism && !shape.isSpace(nextMove)) {
+    // Next move should be a free space only for Civilian
+    if (element instanceof Civilian && !shape.isSpace(nextMove)) {
       nextMove = element.prevStep
     }
 
@@ -24,7 +24,7 @@ export default class StepDynamicHandler implements IStepDynamicService {
     return elements.filter((e) => !e.isDead);
   }
 
-  private attackPredator(element: Predator, nextMove: IPosition) {
+  private attackWarrior(element: Warrior, nextMove: IPosition) {
     const { x: targetX, y: targetY } = element.currentTarget.getPosition();
     const { x: nextX, y: nextY } = nextMove;
 

@@ -1,51 +1,56 @@
 import { Drawer } from "./drawer";
 import { Shape } from "./shapes/shape";
-import PredatorFactory from "./factories/predator-factory";
-import OrganismFactory from "./factories/organism-factory";
+import WarriorFactory from "./factories/warrior-factory";
+import CivilianFactory from "./factories/civilian-factory";
 import StepDynamicHandler from "./services/step-dynamic-items";
-import { IDrawer, IDynamicShapeItem, IShape } from "./interface";
+import { IDrawer, IDynamicShapeItem, IShape, IGame, IPosition, IShapeSize } from "./interface";
 
-export default new class Game {
-  constructor () {
-    this._dynamicItems = [];
+export default class Game {
+  private mainMap: IShape;
+  private dynamicItems: IDynamicShapeItem[];
+  private dawer: IDrawer;
+  private mapSize: IShapeSize;
+  private warriorPositions: IPosition[];
+  private civilianPositions: IPosition[];
+
+  constructor ({ mapSize, dynamicItemsPos: { warrior, civilian } }: IGame) {
+    this.dynamicItems = [];
+    this.mapSize = mapSize;
+    this.warriorPositions = warrior;
+    this.civilianPositions = civilian;
+
     this.createMainMap().createDynamicItems().createDrawer();
 
     return this;
   }
 
-  private _mainMap: IShape;
-  private _dynamicItems: IDynamicShapeItem[];
-  private _dawer: IDrawer;
-
   // Static size
   private createMainMap() {
-    this._mainMap = new Shape({ width: 10, height: 10});
+    this.mainMap = new Shape(this.mapSize);
     return this;
   }
   // Static date
   private createDynamicItems() {
     this.checkMap();
 
-    const predatorFactory = new PredatorFactory(this._mainMap);
-    const orgFact = new OrganismFactory();
+    const warriorFactory = new WarriorFactory(this.mainMap);
+    const civilFact = new CivilianFactory();
 
-    this._dynamicItems.push(orgFact.create({ x: 8, y: 1 }));
-    this._dynamicItems.push(orgFact.create({ x: 2, y: 2 }));
-    this._dynamicItems.push(orgFact.create({ x: 8, y: 8 }));
-    this._dynamicItems.push(orgFact.create({ x: 1, y: 2 }));
-    this._dynamicItems.push(predatorFactory.create({ x: 1, y: 1 }));
-    this._dynamicItems.push(predatorFactory.create({ x: 3, y: 3 }));
+    const warriors = this.warriorPositions.map(pos => warriorFactory.create(pos));
+    const civilians = this.civilianPositions.map(pos => civilFact.create(pos));
+
+    this.dynamicItems.push(...civilians, ...warriors);
     return this;
   }
 
   private createDrawer() {
     this.chackDynamicItems();
 
-    this._dawer = new Drawer(
+    this.dawer = new Drawer(
       {
-        shape: this._mainMap,
+        shape: this.mainMap,
         dynamic: {
-          items: this._dynamicItems,
+          items: this.dynamicItems,
           handler: new StepDynamicHandler()
         }
       }
@@ -53,20 +58,20 @@ export default new class Game {
   }
 
   private checkMap() {
-    if (!this._mainMap) this.createMainMap();
+    if (!this.mainMap) this.createMainMap();
   }
 
   private chackDynamicItems() {
-    if (!this._dynamicItems.length) this.createDynamicItems();
+    if (!this.dynamicItems.length) this.createDynamicItems();
   }
 
   public start() {
-    this._dawer.show();
-    this._dawer.step();
+    this.dawer.show();
+    this.dawer.step();
   }
   
   public showMap() {
-    this._dawer.show();
+    this.dawer.show();
   }
 
   public stop() {
@@ -77,13 +82,14 @@ export default new class Game {
     let index = 0;
 
     return () => {
-      if (index >= this._dawer.shapeItems.length) index = 0; // Reset index
+      // Handle here
+      if (index >= this.dawer.shapeItems.length) index = 0; // Reset index
       
-      let element = this._dawer.shapeItems[index];
+      let element = this.dawer.shapeItems[index];
       
-      this._dawer.clearConsoleAndScrollbackBuffer();
-      this._dawer.stepSinglItem(element);
-      this._dawer.filterShapeItems();
+      this.dawer.clearConsoleAndScrollbackBuffer();
+      this.dawer.stepSinglItem(element);
+      this.dawer.filterShapeItems();
       
       index++;
     };

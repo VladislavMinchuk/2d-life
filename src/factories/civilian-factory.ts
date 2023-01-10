@@ -1,13 +1,13 @@
 import { IDynamicShapeItem, IPosition } from "../interface";
 import IDynamicItemsFactory from "../interface/dynamic-items-factory";
-import { Organism } from "../items/organism";
+import { Civilian } from "../items/civilian";
 
-export default class OrganismFactory implements IDynamicItemsFactory {
+export default class CivilianFactory implements IDynamicItemsFactory {
   create(position: IPosition): IDynamicShapeItem {
-    return new Organism(position)
+    return new Civilian(position)
   }
 
   createArray(positions: IPosition[]): IDynamicShapeItem[] {
-    return positions.map((pos) => new Organism(pos));
+    return positions.map((pos) => new Civilian(pos));
   }
 }

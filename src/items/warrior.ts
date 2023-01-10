@@ -1,14 +1,14 @@
 import { DynamicShapeItem } from "./dynamic-shape-item";
-import { IDynamicShapeItem, IPosition, IPredator, IPredatorRadar } from "../interface";
+import { IDynamicShapeItem, IPosition, IWarrior, IWarriorRadar } from "../interface";
 
-const PREDATOR_SYMBOL = 'x';
+const WARRIOR_SYMBOL = 'x';
 
-export class Predator extends DynamicShapeItem implements IPredator {
-  radar: IPredatorRadar;
-  private _currentTarget: IDynamicShapeItem; // Should be the same like in PredatorRadar
+export class Warrior extends DynamicShapeItem implements IWarrior {
+  radar: IWarriorRadar;
+  private _currentTarget: IDynamicShapeItem; // Should be the same like in WarriorrRadar
 
-  constructor({ x, y }, radar: IPredatorRadar) {
-    super({ x, y }, PREDATOR_SYMBOL);
+  constructor({ x, y }, radar: IWarriorRadar) {
+    super({ x, y }, WARRIOR_SYMBOL);
     this.radar = radar;
   }
 
@@ -17,9 +17,9 @@ export class Predator extends DynamicShapeItem implements IPredator {
   }
 
   override get nextMove(): IPosition {
-    // Set center radar positoin based on Predator position on field
+    // Set center radar positoin based on Warrior position on field
     this.radar.setOutsidePositionOwner({ x: this.x, y: this.y });
-    // Set radar around with Organism around
+    // Set radar around with Civilian around
     this.radar.updateRadar();
     // Find random move
     if (!this.radar.hasTargetAround) return this.radar.nextRandomMove;

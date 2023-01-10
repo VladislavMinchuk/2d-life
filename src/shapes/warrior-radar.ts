@@ -1,11 +1,11 @@
-import { IDynamicShapeItem, IPosition, IPredatorRadar, IShape, IShapeItem } from "../interface";
+import { IDynamicShapeItem, IPosition, IWarriorRadar, IShape, IShapeItem } from "../interface";
 import { DynamicShapeItem } from "../items/dynamic-shape-item";
-import { Organism } from "../items/organism";
+import { Civilian } from "../items/civilian";
 import { Radar } from "./radar";
 
-const defaultTargets = [Organism]; // CONSTANT
+const defaultTargets = [Civilian]; // CONSTANT
 
-export class PredatorRadar extends Radar implements IPredatorRadar {
+export class WarriorRadar extends Radar implements IWarriorRadar {
   private _targetsAround: IDynamicShapeItem[];
   private _availableMoves: IPosition[];
   private _targets: { name: string }[]; // Array of target Classes

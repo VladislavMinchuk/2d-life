@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {
-    "inquirer": "^9.1.4"
-  },
   "devDependencies": {
     "@types/node": "^18.11.5",
     "typescript": "^4.8.4"
@@ -15,5 +12,8 @@
     "start": "tsc && node ./dist/index.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "inquirer": "8.0.1"
+  }
 }

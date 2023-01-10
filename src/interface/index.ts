@@ -59,7 +59,7 @@ export interface IRadar {
   updateRadar(iterationCb: Function): void;
 }
 
-export interface IPredatorRadar {
+export interface IWarriorRadar {
   get randomTarget(): IDynamicShapeItem;
   get nextRandomMove(): IPosition;
   get hasTargetAround(): boolean;
@@ -67,7 +67,7 @@ export interface IPredatorRadar {
   setOutsidePositionOwner(outsidePositionOwner: IPosition): void;
 }
 
-export interface IPredator {
+export interface IWarrior {
   get currentTarget(): IDynamicShapeItem;
 }
 
@@ -84,4 +84,12 @@ export interface IShapeSize {
 export interface IStepDynamicService {
   getNextMoveForShapeItem(element: IDynamicShapeItem, shape: IShape): IPosition;
   getAliveItems(elements: IDynamicShapeItem[]): IDynamicShapeItem[];
+}
+
+export interface IGame {
+  mapSize: IShapeSize,
+  dynamicItemsPos: {
+    warrior: IPosition[],
+    civilian: IPosition[],
+  }
 }

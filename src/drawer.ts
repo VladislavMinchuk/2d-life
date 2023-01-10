@@ -1,5 +1,4 @@
 import { IDrawer, IShape, IDynamicShapeItem, IPosition, IStepDynamicService } from "./interface";
-import { Organism } from "./items/organism";
 
 export class Drawer implements IDrawer {
   shapeInstance: IShape;
