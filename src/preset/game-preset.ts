@@ -1,7 +1,14 @@
 import inquirer from "inquirer";
 import { IGame } from "../interface";
 import { IAnswer } from "../interface/preset";
-import { mainSettingChoices, mapSizeChoices, dynamicItemsChoices, defaultGamePreset, itemsPositionsByMap, mapSize } from "./config";
+import {
+  mainSettingChoices,
+  mapSizeChoices,
+  dynamicItemsChoices,
+  defaultGamePreset,
+  itemsPositionsByMap,
+  mapSize
+} from "./config";
 
 export default new class GamePreset {
   async chooseSettings() {
@@ -29,7 +36,6 @@ export default new class GamePreset {
     ]);
 
     return this.serializeAnswer(answer);
-    
   }
   
   private serializeAnswer(answer: IAnswer): IGame {
