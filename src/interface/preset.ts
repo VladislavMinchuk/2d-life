@@ -1,5 +1,5 @@
 export interface IAnswer {
   mainSetting: string,
-  mapSize: number,
+  mapSize: string,
   dynamicItems: string[]
 };

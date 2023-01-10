@@ -1,7 +1,7 @@
 import inquirer from "inquirer";
 import { IGame } from "../interface";
 import { IAnswer } from "../interface/preset";
-import { mainSettingChoices, mapSizeChoices, dynamicItemsChoices, defaultGamePreset } from "./config";
+import { mainSettingChoices, mapSizeChoices, dynamicItemsChoices, defaultGamePreset, itemsPositionsByMap, mapSize } from "./config";
 
 export default new class GamePreset {
   async chooseSettings() {
@@ -37,15 +37,23 @@ export default new class GamePreset {
   }
   
   private serializeAnswer(answer: IAnswer): IGame {
-    let result = {};
+    
+    if (answer.mainSetting === 'default') return defaultGamePreset;
 
-    if (!answer.mapSize) return defaultGamePreset;
+    const size = mapSize[answer.mapSize];
+    const itemPositions = itemsPositionsByMap[answer.mapSize];
 
+    const dynamicItemsPos = answer.dynamicItems.reduce((prev, curr) => {
+      if (curr === 'warrior') return Object.assign(prev, { warrior: itemPositions.warrior });
+      if (curr === 'civilian') return Object.assign(prev, { civilian: itemPositions.civilian });
+
+    }, { warrior: [], civilian: [] });
+    
     return {
-      mapSize: { width: 10, height: 10 },
+      mapSize: size,
       dynamicItemsPos: {
-        warrior: [],
-        civilian: []
+        warrior: dynamicItemsPos.warrior,
+        civilian: dynamicItemsPos.civilian,
       }
     };
   };
