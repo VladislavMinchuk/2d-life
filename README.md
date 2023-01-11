@@ -17,5 +17,5 @@ Look at your console
 Default map has size of 10x10 cells.
 
 #### Game characters:
-**Civilian** (*o* - symbol) - simple character, without radar, moves only one cell forward, can't looks around, random blind steps;
-**Warrior** (*x* - symbol) - has radar, can hunt for Civilian, moves to random cell if has no around Civilian character, moves only one cell forward;
+- **Civilian** (*o* - symbol) - simple character, without radar, moves only one cell forward, can't looks around, random blind steps;
+- **Warrior** (*x* - symbol) - has radar, can hunt for Civilian, moves to random cell if has no around Civilian character, moves only one cell forward;
