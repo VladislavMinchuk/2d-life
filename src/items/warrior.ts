@@ -1,9 +1,9 @@
 import { DynamicShapeItem } from "./dynamic-shape-item";
-import { IDynamicShapeItem, IPosition, IWarrior, IWarriorRadar } from "../interface";
+import { IDynamicItemWithRadar, IDynamicShapeItem, IPosition, IShapeItem, IWarriorRadar } from "../interface";
 
 const WARRIOR_SYMBOL = 'x';
 
-export class Warrior extends DynamicShapeItem implements IWarrior {
+export class Warrior extends DynamicShapeItem implements IDynamicItemWithRadar {
   radar: IWarriorRadar;
   private _currentTarget: IDynamicShapeItem; // Should be the same like in WarriorrRadar
 
@@ -14,6 +14,10 @@ export class Warrior extends DynamicShapeItem implements IWarrior {
 
   get currentTarget(): IDynamicShapeItem {
     return this._currentTarget;
+  }
+  
+  get radarModel(): (IShapeItem | string)[][] {
+    return this.radar.radarModel;
   }
 
   override get nextMove(): IPosition {

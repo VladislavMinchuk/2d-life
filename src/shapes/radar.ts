@@ -1,5 +1,5 @@
 import { Shape } from "./shape";
-import { IPosition, IRadar, IShape, IShapeSize } from "../interface";
+import { IPosition, IRadar, IShape, IShapeItem, IShapeSize } from "../interface";
 
 const defaultRadarSize = { width: 3, height: 3 }; // CONSTANT
 const radarShapeSymbol = '\\';                    // CONSTANT
@@ -27,6 +27,10 @@ export class Radar extends Shape implements IRadar {
               x: Math.ceil( this.getShapeSize().width / 2 ),
               y: Math.ceil( this.getShapeSize().height / 2 )
             };
+  }
+
+  get radarModel(): (IShapeItem | string)[][] {
+    return super.getShapeModel();
   }
 
   set size(size: IShapeSize) { this._size = size; }

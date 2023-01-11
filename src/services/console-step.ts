@@ -15,9 +15,9 @@ export default new class ConsoleStepService {
     
     process.stdin.on('keypress', (str, key) => {
       if (key.name === 'space') {
-        fn();
-        
-        console.log('Press SPACE for the next step and ESC to exit');
+        fn(() => {
+          console.log('Press SPACE for the next step and ESC to exit');
+        });
       }
       if (key.name === 'escape') {
         console.log('EXIT');

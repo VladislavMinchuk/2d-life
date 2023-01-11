@@ -77,7 +77,7 @@ export default class Game {
   public stop() {
     process.exit(0);
   }
-
+  // Should remove
   public startStepByStep(): Function {
     let index = 0;
 
@@ -93,5 +93,27 @@ export default class Game {
       
       index++;
     };
+  }
+  
+  public singleStepIteration(): Function {
+    let index = 0;
+
+    return (cb: Function) => {
+      const intervalId = setInterval(() => {
+        let element = this.dawer.shapeItems[index];
+
+        if (!element) {
+          index = 0; // Reset
+          cb(); // CallBack after each iteration
+          return clearInterval(intervalId); // Stop
+        }
+
+        this.dawer.clearConsoleAndScrollbackBuffer();
+        this.dawer.stepSinglItem(element);
+        this.dawer.filterShapeItems();
+        
+        index++;
+      }, 500)
+    }
   }
 }

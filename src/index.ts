@@ -8,7 +8,7 @@ const rs = gamePreset.chooseSettings().then((preset: ISerializeAnswer) => {
   game.showMap();
 
   if (!preset.isAutoSteps) {
-    const stepHandler = game.startStepByStep();
+    const stepHandler = game.singleStepIteration();
     ConsoleStepService.stepHandler(stepHandler);
 
   } else game.start();
