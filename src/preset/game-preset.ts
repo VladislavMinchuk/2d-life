@@ -1,13 +1,14 @@
 import inquirer from "inquirer";
 import { IGame } from "../interface";
-import { IAnswer } from "../interface/preset";
+import { IAnswer, ISerializeAnswer } from "../interface/preset";
 import {
   mainSettingChoices,
   mapSizeChoices,
   dynamicItemsChoices,
   defaultGamePreset,
   itemsPositionsByMap,
-  mapSize
+  mapSize,
+  stepHandleChoices
 } from "./config";
 
 export default new class GamePreset {
@@ -32,18 +33,26 @@ export default new class GamePreset {
         message: 'Which types of dynamic items should include?',
         name: 'dynamicItems',
         choices: dynamicItemsChoices
-      }
+      },
+      {
+        when: ({ mainSetting }) => mainSetting === 'custom',
+        type: 'list',
+        message: 'How to handle steps?',
+        name: 'stepHandle',
+        choices: stepHandleChoices
+      },
     ]);
 
     return this.serializeAnswer(answer);
   }
   
-  private serializeAnswer(answer: IAnswer): IGame {
+  private serializeAnswer(answer: IAnswer): ISerializeAnswer {
     
     if (answer.mainSetting === 'default') return defaultGamePreset;
 
     const size = mapSize[answer.mapSize];
     const itemPositions = itemsPositionsByMap[answer.mapSize];
+    const isAutoStepsHandler = answer.stepHandle === 'automatically';
 
     const dynamicItemsPos = answer.dynamicItems.reduce((prev, curr) => {
       if (curr === 'warrior') return Object.assign(prev, { warrior: itemPositions.warrior });
@@ -52,11 +61,14 @@ export default new class GamePreset {
     }, { warrior: [], civilian: [] });
     
     return {
-      mapSize: size,
-      dynamicItemsPos: {
-        warrior: dynamicItemsPos.warrior,
-        civilian: dynamicItemsPos.civilian,
-      }
+      settings: {
+        mapSize: size,
+        dynamicItemsPos: {
+          warrior: dynamicItemsPos.warrior,
+          civilian: dynamicItemsPos.civilian,
+        }
+      },
+      isAutoSteps: isAutoStepsHandler
     };
   };
 }

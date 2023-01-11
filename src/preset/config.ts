@@ -30,21 +30,24 @@ export const mapSize = {
   },
 };
 
-export const defaultGamePreset: IGame = {
-  mapSize: mapSize.small,
-  dynamicItemsPos: {
-    warrior: itemsPositionsByMap.small.warrior,
-    civilian: itemsPositionsByMap.small.civilian
-  }
+export const defaultGamePreset = {
+  settings: {
+    mapSize: mapSize.small,
+    dynamicItemsPos: {
+      warrior: itemsPositionsByMap.small.warrior,
+      civilian: itemsPositionsByMap.small.civilian
+    }
+  },
+  isAutoSteps: true
 };
 
 export const mainSettingChoices = [
   {
-    name: 'Default - Map: 10x10, 6 Dynamic items: 3 Warriors, 3 Civilians',
+    name: 'Default - Map: 10x10, 6 Dynamic items: 3 Warriors, 3 Civilians, Automatically steps',
     value: 'default'
   },
   {
-    name: 'Custom - Map size, type and count of Dynamic items',
+    name: 'Custom - Map size, type and count of Dynamic items, step handler',
     value: 'custom'
   }
 ];
@@ -72,5 +75,16 @@ export const dynamicItemsChoices = [
   {
     name: 'Civilian',
     value: 'civilian'
+  }
+];
+
+export const stepHandleChoices = [
+  {
+    name: 'Handle each steps by keypress',
+    value: 'keypress'
+  },
+  {
+    name: 'Automatically steps',
+    value: 'automatically'
   }
 ];
