@@ -11,11 +11,16 @@ export default new class ConsoleStepService {
    */
   stepHandler(fn: Function) {
     this.readStdin();
+    let stepInProgerss = false;
     console.log('Press SPACE for the next step and ESC to exit');
     
     process.stdin.on('keypress', (str, key) => {
-      if (key.name === 'space') {
+      if (stepInProgerss) return; // Exit if step in progress
+      
+      if (key.name === 'space' && !stepInProgerss) {
+        stepInProgerss = true; // Step start
         fn(() => {
+          stepInProgerss = false; // Step end
           console.log('Press SPACE for the next step and ESC to exit');
         });
       }
