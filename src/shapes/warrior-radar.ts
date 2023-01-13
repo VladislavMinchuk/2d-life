@@ -36,9 +36,7 @@ export class WarriorRadar extends Radar implements IWarriorRadar {
   }
 
   private addTargetAround(target: IShapeItem) {
-    const { name: targetName } = target.constructor;
-
-    if (target instanceof DynamicShapeItem && this._targets.find(t => t.name === targetName)) {
+    if (target instanceof DynamicShapeItem && this.isAvailableTarget(target)) {
       this._targetsAround.push(target);
     }
   }
@@ -64,5 +62,9 @@ export class WarriorRadar extends Radar implements IWarriorRadar {
   override updateRadar() {
     this.resetRadarState(); // reset targets and moves
     super.updateRadar(this.updateRadarCb);
+  }
+
+  public isAvailableTarget(target: IShapeItem) {
+    return this._targets.find(t => t.name === target.constructor.name);
   }
 }

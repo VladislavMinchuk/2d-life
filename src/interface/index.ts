@@ -65,14 +65,16 @@ export interface IWarriorRadar {
   get nextRandomMove(): IPosition;
   get hasTargetAround(): boolean;
   get radarModel(): (IShapeItem | string)[][];
-  updateRadar(): void;
+  isSpace(position: IPosition): boolean;
   setOutsidePositionOwner(outsidePositionOwner: IPosition): void;
+  updateRadar(): void;
 }
 
 export interface IDynamicItemWithRadar {
   radar: IWarriorRadar;
   get radarModel(): (IShapeItem | string)[][];
   get currentTarget(): IDynamicShapeItem;
+  set currentTarget(target: IDynamicShapeItem);
   get nextMove(): IPosition;
   move(position: IPosition): void;
 }

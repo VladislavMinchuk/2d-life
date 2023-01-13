@@ -16,6 +16,10 @@ export class Warrior extends DynamicShapeItem implements IDynamicItemWithRadar {
     return this._currentTarget;
   }
   
+  set currentTarget(target: IDynamicShapeItem) {
+    this._currentTarget = target;
+  }
+
   get radarModel(): (IShapeItem | string)[][] {
     return this.radar.radarModel;
   }
@@ -28,14 +32,14 @@ export class Warrior extends DynamicShapeItem implements IDynamicItemWithRadar {
     // Find random move
     if (!this.radar.hasTargetAround) return this.radar.nextRandomMove;
     const target = this.radar.randomTarget; // Get target
-    this._currentTarget = target;
+    this.currentTarget = target;
     // Find move by Radar
     return target.getPosition();
   }
 
   override move(position: IPosition) {
     // Reset current target
-    this._currentTarget = null; 
+    this.currentTarget = null; 
     super.move(position);
   }
 }
