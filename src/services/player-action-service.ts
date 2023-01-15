@@ -1,4 +1,4 @@
-import { IPosition } from "../interface"
+import { IDynamicItemWithRadar, IPosition } from "../interface"
 
 interface IAction {
   type: string, // move
@@ -17,8 +17,10 @@ interface IPlayerActionService {
 }
 
 export class PlayerActionService implements IPlayerActionService {
-  constructor(parameters) {
-    
+  private players: IDynamicItemWithRadar[];
+  
+  constructor(players: IDynamicItemWithRadar[]) {
+    this.players = players;
   }
 
   playerAction(action: IAction) {
@@ -33,5 +35,9 @@ export class PlayerActionService implements IPlayerActionService {
     // 5 - move anouther items
     // 6 - update player radar
     // 7 - return player item with updated radar
+  }
+
+  getById(id: number) {
+    return this.players.find(p => p.id === id);
   }
 }

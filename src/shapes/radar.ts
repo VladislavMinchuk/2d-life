@@ -1,5 +1,6 @@
 import { Shape } from "./shape";
 import { IPosition, IRadar, IShape, IShapeItem, IShapeSize } from "../interface";
+import { stringify } from "../utils";
 
 const defaultRadarSize = { width: 3, height: 3 }; // CONSTANT
 const radarShapeSymbol = '\\';                    // CONSTANT
@@ -10,10 +11,13 @@ export class Radar extends Shape implements IRadar {
   protected centerMark: string;
   protected outsidePositionOwner: IPosition;
   protected outsideMap: IShape;
+  private _availableMoves: IPosition[];
 
   constructor(outsidePositionOwner: IPosition, outsideMap: IShape) {
     super(defaultRadarSize, radarShapeSymbol); // call Shape's constructor
+
     this._size = defaultRadarSize;
+    this._availableMoves = [];
     this.centerMark = centerMark;
     this.outsidePositionOwner = outsidePositionOwner;
     this.outsideMap = outsideMap;
@@ -23,14 +27,15 @@ export class Radar extends Shape implements IRadar {
   }
 
   get radarCenter(): IPosition {
-    return {
-              x: Math.ceil( this.getShapeSize().width / 2 ),
-              y: Math.ceil( this.getShapeSize().height / 2 )
-            };
+    return { x: Math.ceil( this.getShapeSize().width / 2 ),
+             y: Math.ceil( this.getShapeSize().height / 2 ) };
   }
 
-  get radarModel(): (IShapeItem | string)[][] {
-    return super.getShapeModel();
+  get radarModel(): (IShapeItem | string)[][] { return super.getShapeModel(); }
+
+  get nextRandomMove(): IPosition {
+    const index = Math.floor(Math.random() * this._availableMoves.length);
+    return this._availableMoves[index];
   }
 
   set size(size: IShapeSize) { this._size = size; }
@@ -39,19 +44,30 @@ export class Radar extends Shape implements IRadar {
     this.insertItem(this.radarCenter, mark);
   }
 
-  isSpace(position: IPosition): boolean {
-    return this.outsideMap.isSpace(position);
+  protected resetRadarState() {
+    this._availableMoves = [];
   }
 
-  setOutsidePositionOwner(outsidePositionOwner: IPosition) {
+  private addAvailableMove(position: IPosition) {
+    const distanceX = Math.abs(this.outsidePositionOwner.x - position.x);
+    const distanceY = Math.abs(this.outsidePositionOwner.y - position.y);
+
+    if (distanceX < 2 && distanceY < 2 && this.outsideMap.isSpace(position)) this._availableMoves.push(position);
+  }
+
+  public setOutsidePositionOwner(outsidePositionOwner: IPosition) {
     this.outsidePositionOwner = outsidePositionOwner;
   }
 
-  showShape() { super.showShape(); }
+  public isAvailableMove(position: IPosition): boolean {
+    return !!this._availableMoves.find(p => stringify(p) === stringify(position));
+  }
 
-  // iterationCb - unnecessary callback function, call on each iteratioin
+  public showShape() { super.showShape(); }
+
+  // iterationCb - Unnecessary callback function, call on each iteration
   // Don't forget to save context of callback
-  updateRadar(iterationCb?: Function) {
+  public updateRadar(iterationCb?: Function) {
     const { width, height } = this._size;
     const { x: ownerX, y: ownerY } = this.outsidePositionOwner;
     const outsideStartX = ownerX - (this.radarCenter.x - 1);
@@ -72,11 +88,10 @@ export class Radar extends Shape implements IRadar {
           continue;
         }
 
-        if (outsideLocalPos.x === ownerX && outsideLocalPos.y === ownerY) {
-          continue;
-        }
-        // Insert item into Radar
-        this.insertItem(radarPosition, outsideItem);
+        if (outsideLocalPos.x === ownerX && outsideLocalPos.y === ownerY) continue;
+
+        this.insertItem(radarPosition, outsideItem); // Insert item into Radar
+        this.addAvailableMove(outsideLocalPos); // Add available move around
         // Callback function
         if (iterationCb) iterationCb(outsideItem, outsideLocalPos, radarPosition);
       }

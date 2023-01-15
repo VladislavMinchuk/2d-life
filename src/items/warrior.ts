@@ -20,10 +20,6 @@ export class Warrior extends DynamicShapeItem implements IDynamicItemWithRadar {
     this._currentTarget = target;
   }
 
-  get radarModel(): (IShapeItem | string)[][] {
-    return this.radar.radarModel;
-  }
-
   override get nextMove(): IPosition {
     // Set center radar positoin based on Warrior position on field
     this.radar.setOutsidePositionOwner({ x: this.x, y: this.y });

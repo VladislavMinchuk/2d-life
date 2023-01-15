@@ -55,24 +55,25 @@ export interface IDrawer {
 export interface IRadar {
   get radarCenter(): IPosition;
   get radarModel(): (IShapeItem | string)[][];
-  isSpace(position: IPosition): boolean;
+  get nextRandomMove(): IPosition;
+  isAvailableMove(position: IPosition): boolean
   setOutsidePositionOwner(outsidePositionOwner: IPosition): void;
   updateRadar(iterationCb: Function): void;
 }
 
 export interface IWarriorRadar {
   get randomTarget(): IDynamicShapeItem;
-  get nextRandomMove(): IPosition;
   get hasTargetAround(): boolean;
+  get nextRandomMove(): IPosition;
   get radarModel(): (IShapeItem | string)[][];
-  isSpace(position: IPosition): boolean;
+  isAvailableTarget(target: IShapeItem): boolean;
   setOutsidePositionOwner(outsidePositionOwner: IPosition): void;
   updateRadar(): void;
 }
 
 export interface IDynamicItemWithRadar {
+  id: number;
   radar: IWarriorRadar;
-  get radarModel(): (IShapeItem | string)[][];
   get currentTarget(): IDynamicShapeItem;
   set currentTarget(target: IDynamicShapeItem);
   get nextMove(): IPosition;
