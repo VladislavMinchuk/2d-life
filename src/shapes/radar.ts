@@ -22,7 +22,7 @@ export class Radar extends Shape implements IRadar {
     this.outsidePositionOwner = outsidePositionOwner;
     this.outsideMap = outsideMap;
 
-    this.setCenterMarker(this.centerMark);
+    // this.setCenterMarker(this.centerMark);
     this.updateRadar();
   }
 
@@ -31,7 +31,7 @@ export class Radar extends Shape implements IRadar {
              y: Math.ceil( this.getShapeSize().height / 2 ) };
   }
 
-  get radarModel(): (IShapeItem | string)[][] { return super.getShapeModel(); }
+  get radarModel(): (IShapeItem)[][] { return super.getShapeModel(); }
 
   get nextRandomMove(): IPosition {
     const index = Math.floor(Math.random() * this._availableMoves.length);
@@ -40,9 +40,9 @@ export class Radar extends Shape implements IRadar {
 
   set size(size: IShapeSize) { this._size = size; }
 
-  protected setCenterMarker(mark: string) {
-    this.insertItem(this.radarCenter, mark);
-  }
+  // protected setCenterMarker(mark: string) {
+  //   this.insertItem(this.radarCenter, mark);
+  // }
 
   protected resetRadarState() {
     this._availableMoves = [];
@@ -83,10 +83,10 @@ export class Radar extends Shape implements IRadar {
         const radarPosition = { x: indexX + 1, y: indexY + 1 };
         const outsideItem = this.outsideMap.getItemByPosition(outsideLocalPos);
 
-        if (outsideLocalPos.x > this.outsideMap.width || outsideLocalPos.y > this.outsideMap.height) {
-          this.insertItem(radarPosition, radarShapeSymbol); // Insert shape symbol
-          continue;
-        }
+        // if (outsideLocalPos.x > this.outsideMap.width || outsideLocalPos.y > this.outsideMap.height) {
+        //   this.insertItem(radarPosition, radarShapeSymbol); // Insert shape symbol
+        //   continue;
+        // }
 
         if (outsideLocalPos.x === ownerX && outsideLocalPos.y === ownerY) continue;
 
@@ -97,6 +97,6 @@ export class Radar extends Shape implements IRadar {
       }
     }
 
-    this.setCenterMarker(this.centerMark);
+    // this.setCenterMarker(this.centerMark);
   }
 }

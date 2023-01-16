@@ -5,12 +5,10 @@ export class DynamicShapeItem extends ShapeItem implements IDynamicShapeItem {
   _prevStep: { x: number, y: number };
   _isDead: boolean;
   positionsAround: { x: number; y: number; }[];
-  id: number;
 
   constructor({ x, y }, symbol) {
     super({ x, y }, symbol);
 
-    this.id = Math.round(Date.now() * Math.random() * 1000); // generate unique number
     this._prevStep = { x, y };
     this.positionsAround = [];
     this.setPositionsAround();

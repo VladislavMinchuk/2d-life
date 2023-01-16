@@ -26,7 +26,7 @@ export default class Game {
 
   // Static size
   private createMainMap() {
-    this.mainMap = new Shape(this.mapSize);
+    this.mainMap = new Shape(this.mapSize); // The Shape depends on DecorItemFactory
     return this;
   }
   // Static date

@@ -1,5 +1,5 @@
 import { IPosition, IShape } from "../interface";
-import IDynamicItemsFactory from "../interface/dynamic-items-factory";
+import { IDynamicItemsFactory } from "../interface/factories";
 import { Warrior } from "../items/warrior";
 import { WarriorRadar } from "../shapes/warrior-radar";
 

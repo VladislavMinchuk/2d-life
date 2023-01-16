@@ -4,11 +4,13 @@ export class ShapeItem implements IShapeItem {
   x: number;
   y: number;
   symbol: string;
+  id: number;
 
-  constructor({ x, y }, symbol) {
+  constructor({ x, y }, symbol: string) {
     this.x = x;
     this.y = y;
     this.symbol = symbol;
+    this.id = Math.round(Date.now() * Math.random() * 1000); // generate unique number
   }
 
   getPosition() {

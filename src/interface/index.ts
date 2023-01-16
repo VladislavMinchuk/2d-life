@@ -3,15 +3,15 @@ export interface IShape {
   height: number;
   borderSymbol: string;
   spaceSymbol: string;
-  shapeModel: (IShapeItem | string)[][];
+  shapeModel: (IShapeItem)[][];
 
-  insertItem(position: IPosition, item: IShapeItem | string): IShape;
+  insertItem(position: IPosition, item: IShapeItem): IShape;
   insertSpace(position: IPosition): IShape;
   isSpace(position: IPosition): boolean;
-  getShapeModel(): (IShapeItem | string)[][];
+  getShapeModel(): (IShapeItem)[][];
   getShapeSize(): { width: number, height: number };
   isPositionInsideShape(position: IPosition): boolean;
-  getItemByPosition(position: IPosition): IShapeItem | string;
+  getItemByPosition(position: IPosition): IShapeItem;
   showShape(): void;
 }
 
@@ -19,13 +19,13 @@ export interface IShapeItem {
   x: number;
   y: number;
   symbol: string;
+  id: number;
 
   getPosition(): IPosition;
   toString(): string;
 }
 
 export interface IDynamicShapeItem extends IShapeItem {
-  id: number;
   positionsAround: Array<IPosition>;
   isDead: boolean;
   _prevStep: IPosition;
@@ -54,7 +54,7 @@ export interface IDrawer {
 
 export interface IRadar {
   get radarCenter(): IPosition;
-  get radarModel(): (IShapeItem | string)[][];
+  get radarModel(): (IShapeItem)[][];
   get nextRandomMove(): IPosition;
   isAvailableMove(position: IPosition): boolean
   setOutsidePositionOwner(outsidePositionOwner: IPosition): void;
@@ -65,7 +65,7 @@ export interface IWarriorRadar {
   get randomTarget(): IDynamicShapeItem;
   get hasTargetAround(): boolean;
   get nextRandomMove(): IPosition;
-  get radarModel(): (IShapeItem | string)[][];
+  get radarModel(): IShapeItem[][];
   isAvailableTarget(target: IShapeItem): boolean;
   setOutsidePositionOwner(outsidePositionOwner: IPosition): void;
   updateRadar(): void;
@@ -74,9 +74,11 @@ export interface IWarriorRadar {
 export interface IDynamicItemWithRadar {
   id: number;
   radar: IWarriorRadar;
+  get prevStep(): IPosition;
   get currentTarget(): IDynamicShapeItem;
   set currentTarget(target: IDynamicShapeItem);
   get nextMove(): IPosition;
+  getPosition(): IPosition;
   move(position: IPosition): void;
 }
 
