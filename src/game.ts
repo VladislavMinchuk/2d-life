@@ -3,7 +3,8 @@ import { Shape } from "./shapes/shape";
 import WarriorFactory from "./factories/warrior-factory";
 import CivilianFactory from "./factories/civilian-factory";
 import StepDynamicHandler from "./services/step-dynamic-items";
-import { IDrawer, IDynamicShapeItem, IShape, IGame, IPosition, IShapeSize } from "./interface";
+import { IDrawer, IDynamicShapeItem, IShape, IGame, IPosition, IShapeSize, IDynamicItemWithRadar } from "./interface";
+import { IAction, IPlayerActionService, PlayerActionService } from "./services/player-action-service";
 
 export default class Game {
   private mainMap: IShape;
@@ -12,6 +13,7 @@ export default class Game {
   private mapSize: IShapeSize;
   private warriorPositions: IPosition[];
   private civilianPositions: IPosition[];
+  private playerActionService: IPlayerActionService;
 
   constructor ({ mapSize, dynamicItemsPos: { warrior, civilian } }: IGame) {
     this.dynamicItems = [];
@@ -36,6 +38,8 @@ export default class Game {
     const warriorFactory = new WarriorFactory(this.mainMap);
     const civilFact = new CivilianFactory();
 
+    this.playerActionService = new PlayerActionService(warriorFactory.create({ x: 1, y: 1 }));
+
     const warriors = this.warriorPositions.map(pos => warriorFactory.create(pos));
     const civilians = this.civilianPositions.map(pos => civilFact.create(pos));
 
@@ -52,7 +56,8 @@ export default class Game {
         dynamic: {
           items: this.dynamicItems,
           handler: new StepDynamicHandler()
-        }
+        },
+        singlePlayer: this.playerActionService.player,
       }
     );
   }
@@ -115,5 +120,14 @@ export default class Game {
         index++;
       }, 500)
     }
+  }
+
+  public playerStep(action: IAction): IDynamicItemWithRadar {
+    this.playerActionService.playerAction(action);
+    // 4 - insert
+    // 5 - move anouther items
+    // 6 - update player radar
+    // 7 - return player item with updated radar
+    return this.playerActionService.player;
   }
 }

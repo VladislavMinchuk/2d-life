@@ -7,9 +7,9 @@ const rs = gamePreset.chooseSettings().then((preset: ISerializeAnswer) => {
   const game = new Game(preset.settings);
   game.showMap();
 
-  if (!preset.isAutoSteps) {
-    const stepHandler = game.singleStepIteration();
-    ConsoleStepService.stepHandler(stepHandler);
+  // if (!preset.isAutoSteps) {
+  //   const stepHandler = game.singleStepIteration();
+  //   ConsoleStepService.stepHandler(stepHandler);
 
-  } else game.start();
+  // } else game.start();
 });

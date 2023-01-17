@@ -1,4 +1,4 @@
-import { IDrawer, IShape, IDynamicShapeItem, IPosition, IStepDynamicService } from "./interface";
+import { IDrawer, IShape, IDynamicShapeItem, IPosition, IStepDynamicService, IDynamicItemWithRadar } from "./interface";
 
 export class Drawer implements IDrawer {
   shapeInstance: IShape;
@@ -8,7 +8,8 @@ export class Drawer implements IDrawer {
 
   constructor(options: {
     shape: IShape,
-    dynamic: { items: IDynamicShapeItem[], handler: IStepDynamicService }
+    dynamic: { items: IDynamicShapeItem[], handler: IStepDynamicService },
+    singlePlayer: IDynamicItemWithRadar,
   }) {
     this.shapeInstance = options.shape;
     this.shapeItems = options.dynamic.items;
@@ -34,6 +35,9 @@ export class Drawer implements IDrawer {
   public show() {
     this.clearConsoleAndScrollbackBuffer();
     this.insertAllItemsIntoShape().showShape();
+
+    // this.shapeItems[3].radar.updateRadar()
+    // this.shapeItems[3].radar.radarModel.forEach((element) => console.log(element.join(' ')));
   }
 
   public step() {

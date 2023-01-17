@@ -56,7 +56,7 @@ export interface IRadar {
   get radarCenter(): IPosition;
   get radarModel(): (IShapeItem)[][];
   get nextRandomMove(): IPosition;
-  isAvailableMove(position: IPosition): boolean
+  isAvailableMove(position: IPosition): boolean;
   setOutsidePositionOwner(outsidePositionOwner: IPosition): void;
   updateRadar(iterationCb: Function): void;
 }
@@ -67,6 +67,7 @@ export interface IWarriorRadar {
   get nextRandomMove(): IPosition;
   get radarModel(): IShapeItem[][];
   isAvailableTarget(target: IShapeItem): boolean;
+  isAvailableMove(position: IPosition): boolean;
   setOutsidePositionOwner(outsidePositionOwner: IPosition): void;
   updateRadar(): void;
 }

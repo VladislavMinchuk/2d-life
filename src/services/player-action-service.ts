@@ -4,42 +4,50 @@ export interface IAction {
   type: string, // move
   id: number,
   positions: {
-    current: IPosition,
     next: IPosition,
     prev: IPosition,
   }
 }
 
-interface IPlayerActionService {
-  playerAction(action: IAction)
-  moveAction(action: IAction, singlePlayer: IDynamicItemWithRadar): IDynamicItemWithRadar;
+export interface IPlayerActionService {
+  player: IDynamicItemWithRadar;
+  playerAction(action: IAction): void;
+  updatePlayerRadar(): IDynamicItemWithRadar;
 }
 
 export class PlayerActionService implements IPlayerActionService {
-  private players: IDynamicItemWithRadar[];
+  public player: IDynamicItemWithRadar;
   
-  constructor(players: IDynamicItemWithRadar[]) {
-    this.players = players;
+  constructor(player: IDynamicItemWithRadar) {
+    this.player = player;
   }
 
   playerAction(action: IAction) {
-    // 1 - Get character by id
-    const singlePlayer = this.getById(action.id)
-    if (action.type === 'move') this.moveAction(action, singlePlayer);
+    // 1 - Check character by id
+    if (!this.checkPlayerById(action.id)) return;
+    if (action.type === 'move') this.moveAction(action);
   }
 
-  moveAction(action: IAction, singlePlayer: IDynamicItemWithRadar): IDynamicItemWithRadar {
-    // 2 -  check 'next' move
+  moveAction(action: IAction): IDynamicItemWithRadar {
+    // 6 - update player radar
+    this.player.radar.updateRadar();
+    // 2 - check 'next' move
+    this.player.radar.isAvailableMove(action.positions.next);
     // 3 - move
+    this.player.move(action.positions.next);
     // 4 - insert
     // 5 - move anouther items
     // 6 - update player radar
     // 7 - return player item with updated radar
-
-    return singlePlayer;
+    return this.player;
+  }
+  
+  updatePlayerRadar(): IDynamicItemWithRadar {
+    this.player.radar.updateRadar();
+    return this.player;
   }
 
-  getById(id: number) {
-    return this.players.find(p => p.id === id);
+  checkPlayerById(id: number) {
+    return this.player.id === id;
   }
 }
