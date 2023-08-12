@@ -11,7 +11,7 @@ export class ShapeItem implements IShapeItem {
     this.symbol = symbol;
   }
 
-  getPosition() {
+  get position() {
     return { x: this.x, y: this.y };
   }
 

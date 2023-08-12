@@ -10,6 +10,5 @@ const rs = gamePreset.chooseSettings().then((preset: ISerializeAnswer) => {
   if (!preset.isAutoSteps) {
     const stepHandler = game.startStepByStep();
     ConsoleStepService.stepHandler(stepHandler);
-
-  } else game.start();
+} else game.start();
 });

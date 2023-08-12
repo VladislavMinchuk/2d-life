@@ -43,8 +43,6 @@ export class Radar extends Shape implements IRadar {
     this.outsidePositionOwner = outsidePositionOwner;
   }
 
-  showShape() { super.showShape(); }
-
   // iterationCb - unnecessary callback function, call on each iteratioin
   // Don't forget to save context of callback
   updateRadar(iterationCb?: Function) {

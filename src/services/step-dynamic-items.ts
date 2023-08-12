@@ -11,7 +11,10 @@ export default class StepDynamicHandler implements IStepDynamicService {
 
     // Next move should be a free space only for Civilian
     if (element instanceof Civilian && !shape.isSpace(nextMove)) {
-      nextMove = element.prevStep
+      // Is Previous step a free space ?
+      if (shape.isSpace(element.prevStep)) nextMove = element.prevStep;
+      // stay on the current position if place is taken
+      else nextMove = element.position;
     }
 
     // Step back if nextMove is outside position
@@ -25,7 +28,7 @@ export default class StepDynamicHandler implements IStepDynamicService {
   }
 
   private attackWarrior(element: Warrior, nextMove: IPosition) {
-    const { x: targetX, y: targetY } = element.currentTarget.getPosition();
+    const { x: targetX, y: targetY } = element.currentTarget.position;
     const { x: nextX, y: nextY } = nextMove;
 
     if (nextX === targetX && nextY === targetY) this.killItem(element.currentTarget);

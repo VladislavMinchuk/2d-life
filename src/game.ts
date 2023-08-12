@@ -24,12 +24,11 @@ export default class Game {
     return this;
   }
 
-  // Static size
   private createMainMap() {
     this.mainMap = new Shape(this.mapSize);
     return this;
   }
-  // Static date
+  
   private createDynamicItems() {
     this.checkMap();
 

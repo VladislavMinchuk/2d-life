@@ -26,7 +26,7 @@ export class Warrior extends DynamicShapeItem implements IWarrior {
     const target = this.radar.randomTarget; // Get target
     this._currentTarget = target;
     // Find move by Radar
-    return target.getPosition();
+    return target.position;
   }
 
   override move(position: IPosition) {

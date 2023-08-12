@@ -20,7 +20,7 @@ export interface IShapeItem {
   y: number;
   symbol: string;
 
-  getPosition(): IPosition;
+  get position(): IPosition;
   toString(): string;
 }
 
