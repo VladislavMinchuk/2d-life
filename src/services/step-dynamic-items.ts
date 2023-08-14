@@ -2,6 +2,7 @@ import { IDynamicShapeItem, IPosition, IShape, IStepDynamicService } from "../in
 import { Civilian } from "../items/civilian";
 import { Warrior } from "../items/warrior";
 
+// Should be Strategy for each instance of DynamicItem
 export default class StepDynamicHandler implements IStepDynamicService {
   public getNextMoveForShapeItem(element: IDynamicShapeItem, shape: IShape): IPosition {
     let nextMove: IPosition = element.nextMove;
@@ -9,16 +10,13 @@ export default class StepDynamicHandler implements IStepDynamicService {
     // Attack action if Warrior has target
     if (element instanceof Warrior && element.currentTarget) this.attackWarrior(element, nextMove);
 
-    // Next move should be a free space only for Civilian
+    // Next move should be a free space only for Civilian or step back if nextMove isn't available
     if (element instanceof Civilian && !shape.isSpace(nextMove)) {
-      // Is Previous step a free space ?
+      // Is Previous step a free space
       if (shape.isSpace(element.prevStep)) nextMove = element.prevStep;
-      // stay on the current position if place is taken
+      // stay on the current position if previous place is taken
       else nextMove = element.position;
     }
-
-    // Step back if nextMove is outside position
-    if (!shape.isPositionInsideShape(nextMove)) nextMove = element.prevStep;
 
     return nextMove;
   }

@@ -39,7 +39,7 @@ export class WarriorRadar extends Radar implements IWarriorRadar {
 
   private addTargetAround(): void {
     super.getShapeModel()
-      // Flatten array [ [Item, Item], [Item, Item] ... ]
+      // Flatten array [ [Item, Item], [Item, Item] ... ] => [Item, Item, Item ...]
       .reduce((acc, currentValue) => ([...acc, ...currentValue]), [])
       .map((item) => {if (item instanceof ShapeItem) return item;})
       .filter((item) => item instanceof DynamicShapeItem)
@@ -68,7 +68,7 @@ export class WarriorRadar extends Radar implements IWarriorRadar {
 
   override updateRadar() {
     this.resetRadarState(); // reset targets
-    super.updateRadar(); // Update rader map
+    super.updateRadar();    // Update rader map
     this.addTargetAround(); // Add targets based on '_targets' field
   }
 }
