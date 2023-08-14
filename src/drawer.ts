@@ -1,10 +1,13 @@
 import { IDrawer, IShape, IDynamicShapeItem, IPosition, IStepDynamicService } from "./interface";
 
+/**
+ * Mediator pattern class is dependencies between Shape (Map) and ShapeItems (Items on the map)
+ * Drawer can manage steps by StepDynamicService
+ **/
 export class Drawer implements IDrawer {
   shapeInstance: IShape;
   shapeItems: IDynamicShapeItem[];
   dynamicItemsService: IStepDynamicService;
-  
 
   constructor(options: {
     shape: IShape,
