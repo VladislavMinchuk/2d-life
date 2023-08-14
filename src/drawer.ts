@@ -19,7 +19,7 @@ export class Drawer implements IDrawer {
     this.shapeItems.forEach((element) => {
       this.shapeInstance
         .insertSpace(element.prevStep)
-        .insertItem(element.getPosition(), element);
+        .insertItem(element.position, element);
     });
 
     return this.shapeInstance;
@@ -28,7 +28,7 @@ export class Drawer implements IDrawer {
   private insertSinglItem(element: IDynamicShapeItem): IShape {
     return this.shapeInstance
       .insertSpace(element.prevStep)
-      .insertItem(element.getPosition(), element);
+      .insertItem(element.position, element);
   }
 
   public show() {

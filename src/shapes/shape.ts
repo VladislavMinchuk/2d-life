@@ -58,7 +58,7 @@ export class Shape implements IShape {
     return this.shapeModel[y][x] === this.spaceSymbol;
   }
   
-  getShapeModel() {
+  getShapeModel(): (IShapeItem | string)[][] {
     return this.shapeModel;
   }
   
@@ -66,7 +66,7 @@ export class Shape implements IShape {
     return { width: this.width, height: this.height };
   }
 
-  getItemByPosition({ x, y }): IShapeItem | string {
+  getItemByPosition({ x, y }): any {
     return this.shapeModel[y][x];
   }
 

@@ -21,11 +21,15 @@ export class Warrior extends DynamicShapeItem implements IWarrior {
     this.radar.setOutsidePositionOwner({ x: this.x, y: this.y });
     // Set radar around with Civilian around
     this.radar.updateRadar();
+
+
+
     // Find random move
     if (!this.radar.hasTargetAround) return this.radar.nextRandomMove;
+    // If warrior has target around
     const target = this.radar.randomTarget; // Get target
     this._currentTarget = target;
-    // Find move by Radar
+    // The move found by Radar
     return target.position;
   }
 

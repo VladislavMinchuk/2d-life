@@ -11,7 +11,7 @@ export interface IShape {
   getShapeModel(): (IShapeItem | string)[][];
   getShapeSize(): { width: number, height: number };
   isPositionInsideShape(position: IPosition): boolean;
-  getItemByPosition(position: IPosition): IShapeItem | string;
+  getItemByPosition(position: IPosition): any;
   showShape(): void;
 }
 
@@ -54,6 +54,7 @@ export interface IDrawer {
 
 export interface IRadar {
   get radarCenter(): IPosition;
+  get nextRandomMove(): IPosition;
   isSpace(position: IPosition): boolean;
   setOutsidePositionOwner(outsidePositionOwner: IPosition): void;
   updateRadar(iterationCb: Function): void;
@@ -62,13 +63,14 @@ export interface IRadar {
 export interface IWarriorRadar {
   get randomTarget(): IDynamicShapeItem;
   get nextRandomMove(): IPosition;
+  get availableMoves(): IPosition[];
   get hasTargetAround(): boolean;
   updateRadar(): void;
   setOutsidePositionOwner(outsidePositionOwner: IPosition): void;
 }
 
 export interface IWarrior {
-  get currentTarget(): IDynamicShapeItem;
+  get currentTarget(): IShapeItem;
 }
 
 export interface IPosition {
